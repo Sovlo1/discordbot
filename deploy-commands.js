@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const commands = [
   new SlashCommandBuilder().setName("dota").setDescription("Ping pour dota"),
+  new SlashCommandBuilder().setName("debug").setDescription("dev"),
 ].map((command) => command.toJSON());
 
 const rest = new REST({ version: "10" }).setToken(process.env.CLIENT_TOKEN);

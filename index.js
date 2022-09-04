@@ -2,8 +2,12 @@ require("dotenv").config();
 const fs = require("node:fs");
 const path = require("node:path");
 const { Client, GatewayIntentBits, Collection } = require("discord.js");
+const { memoryStorage } = require("multer");
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({
+  intents: [GatewayIntentBits.Guilds],
+});
+const pingedRecently = new Set();
 
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, "commands");
@@ -24,21 +28,29 @@ client.on("ready", () => {
 });
 
 client.on("interactionCreate", async (interaction) => {
-  if (!interaction.isChatInputCommand()) return;
-
-  const command = interaction.client.commands.get(interaction.commandName);
-
-  if (!command) return;
-
-  try {
-    await command.execute(interaction);
-  } catch (error) {
-    console.error(error);
-    await interaction.reply({
-      content: "There was an error while executing this command!",
-      ephemeral: true,
-    });
-  }
+  if (interaction.isChatInputCommand()) {
+    const command = interaction.client.commands.get(interaction.commandName);
+    if (!command) return;
+    try {
+      await command.execute(interaction);
+    } catch (error) {
+      console.error(error);
+      await interaction.reply({
+        content: "There was an error while executing this command!",
+        ephemeral: true,
+      });
+    }
+  } else if (interaction.isButton()) {
+    console.log(interaction.user);
+    const user = interaction.user;
+    const message = interaction.message;
+    const meufQuiSouffle = message.guild.emojis.cache.find(
+      (emoji) => emoji.name === "cutecopium"
+    );
+    console.log(interaction.message);
+    // interaction.message.content.update(" ");
+    // ({ content: "" });
+  } else return;
 });
 
 client.login(process.env.CLIENT_TOKEN);

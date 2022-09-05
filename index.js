@@ -7,7 +7,6 @@ const { memoryStorage } = require("multer");
 const client = new Client({
   intents: [GatewayIntentBits.Guilds],
 });
-const pingedRecently = new Set();
 
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, "commands");
@@ -18,8 +17,6 @@ const commandFiles = fs
 for (const file of commandFiles) {
   const filePath = path.join(commandsPath, file);
   const command = require(filePath);
-  // Set a new item in the Collection
-  // With the key as the command name and the value as the exported module
   client.commands.set(command.data.name, command);
 }
 
@@ -40,16 +37,6 @@ client.on("interactionCreate", async (interaction) => {
         ephemeral: true,
       });
     }
-  } else if (interaction.isButton()) {
-    console.log(interaction.user);
-    const user = interaction.user;
-    const message = interaction.message;
-    const meufQuiSouffle = message.guild.emojis.cache.find(
-      (emoji) => emoji.name === "cutecopium"
-    );
-    console.log(interaction.message);
-    // interaction.message.content.update(" ");
-    // ({ content: "" });
   } else return;
 });
 

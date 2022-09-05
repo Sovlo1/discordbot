@@ -13,21 +13,18 @@ module.exports = {
         "Vous ne pouvez pas repinger avant au moins 20 minutes"
       );
     } else {
-      const row = new ActionRowBuilder().addComponents(
-        new ButtonBuilder()
-          .setCustomId("primary")
-          .setLabel("Jouer")
-          .setStyle(ButtonStyle.Primary)
-      );
       pingedRecently.add(interaction.user.id);
       setTimeout(() => {
         pingedRecently.delete(interaction.user.id);
       }, 20 * 60 * 1000);
       await interaction.client.channels.cache
         .get("1015923444833079366")
-        .send({ content: "<@&1015923384372166696>", components: [row] })
+        .send({ content: "<@&1015923384372166696>" })
         .then(
-          interaction.reply(interaction.user.username + " just pinged dota")
+          interaction.reply(
+            interaction.user.username +
+              " just sent a ping in <#1015923444833079366>"
+          )
         )
         .catch(console.error);
     }

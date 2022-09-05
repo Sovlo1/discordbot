@@ -46,22 +46,48 @@ client.on("interactionCreate", async (interaction) => {
       });
     }
   } else if (interaction.isSelectMenu()) {
-    // console.log(interaction);
-    const message = await interaction.message.fetch(interaction.message.id);
-    // console.log(message);
+    // if (interaction.message.content.includes(interaction.user.id)) return;
+    let players;
+    let message = await interaction.message.fetch(interaction.message.id);
+    let messageArray = message.content.split(" ");
+    const userIdRegex = /(<@[0-9]+>)/;
+    let userArray = messageArray
+      .map((x) => {
+        if (userIdRegex.test(x)) {
+          return x;
+        } else return;
+      })
+      .filter((x) => typeof x === "string");
+    let messageUpdate = await message.edit(
+      interaction.message.content +
+        " \n " +
+        `<@${interaction.user.id}>` +
+        " sera dispo dans " +
+        interaction.values[0]
+    );
     if (interaction.values[0] == "5-10") {
-      await message.edit(
-        interaction.message.content +
-          "\n" +
-          `<@${interaction.user.id}>` +
-          "sera dispo dans" +
-          interaction.values[0]
-      );
+      messageUpdate;
     } else if (interaction.values[0] == "10-20") {
+      messageUpdate;
     } else if (interaction.values[0] == "20-30") {
+      messageUpdate;
     } else if (interaction.values[0] == "30-45") {
+      messageUpdate;
     } else if (interaction.values[0] == "45-60") {
+      messageUpdate;
     }
+    if (userArray.length >= 4) {
+      players = userArray.join(" ");
+      return await interaction.reply(
+        userArray.length +
+          1 +
+          " joueurs sont dispo soon: " +
+          players +
+          " et " +
+          `<@${interaction.user.id}>`
+      );
+    }
+    interaction.deferUpdate();
   } else return;
 });
 

@@ -8,7 +8,6 @@ module.exports = {
     .setDescription("Pour pour dota (20 minutes de cooldown)"),
   async execute(interaction) {
     if (pingedRecently.has(interaction.user.id)) {
-      console.log(interaction);
       return await interaction.reply(
         "Vous ne pouvez pas repinger avant au moins 20 minutes"
       );

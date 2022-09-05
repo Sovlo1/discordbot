@@ -1,11 +1,18 @@
 require("dotenv").config();
 const fs = require("node:fs");
 const path = require("node:path");
-const { Client, GatewayIntentBits, Collection } = require("discord.js");
+const {
+  Client,
+  GatewayIntentBits,
+  Collection,
+  ReactionUserManager,
+  ReactionManager,
+  ReactionCollector,
+} = require("discord.js");
 const { memoryStorage } = require("multer");
 
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds],
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessageReactions],
 });
 
 client.commands = new Collection();

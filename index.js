@@ -34,6 +34,7 @@ client.on("ready", () => {
 client.on("interactionCreate", async (interaction) => {
   if (interaction.isChatInputCommand()) {
     const command = interaction.client.commands.get(interaction.commandName);
+    console.log(command);
     if (!command) return;
     try {
       await command.execute(interaction);
@@ -43,6 +44,23 @@ client.on("interactionCreate", async (interaction) => {
         content: "There was an error while executing this command!",
         ephemeral: true,
       });
+    }
+  } else if (interaction.isSelectMenu()) {
+    // console.log(interaction);
+    const message = await interaction.message.fetch(interaction.message.id);
+    // console.log(message);
+    if (interaction.values[0] == "5-10") {
+      await message.edit(
+        interaction.message.content +
+          "\n" +
+          `<@${interaction.user.id}>` +
+          "sera dispo dans" +
+          interaction.values[0]
+      );
+    } else if (interaction.values[0] == "10-20") {
+    } else if (interaction.values[0] == "20-30") {
+    } else if (interaction.values[0] == "30-45") {
+    } else if (interaction.values[0] == "45-60") {
     }
   } else return;
 });

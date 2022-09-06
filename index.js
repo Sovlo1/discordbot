@@ -40,7 +40,7 @@ client.on("interactionCreate", async (interaction) => {
   } else if (interaction.isSelectMenu()) {
     if (interaction.message.content.includes(interaction.user.id))
       return interaction.reply({
-        content: "Vous avez déja choisi une option",
+        content: "Vous avez déja choisi une option ducon",
         ephemeral: true,
       });
     let players;
@@ -77,7 +77,7 @@ client.on("interactionCreate", async (interaction) => {
       return await interaction.reply(
         userArray.length +
           1 +
-          " joueurs sont dispo soon: " +
+          " joueurs sont dispo bientôt soon: " +
           players +
           " et " +
           `<@${interaction.user.id}>`

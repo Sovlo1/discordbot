@@ -14,11 +14,7 @@ module.exports = {
     ),
   async execute(interaction) {
     let option;
-    if (interaction.options.getString("détails") != null) {
-      option = interaction.options.getString("détails");
-    } else {
-      option = "";
-    }
+    let pingMsg;
     if (pingedRecently.has(interaction.user.id)) {
       return await interaction.reply(
         "Vous ne pouvez pas repinger avant au moins 20 minutes"
@@ -30,42 +26,63 @@ module.exports = {
           .setPlaceholder("Nothing selected")
           .addOptions(
             {
-              label: `dans 5-10 minutes`,
+              label: `Ok ça me va`,
+              description: " ",
+              value: "un instant",
+            },
+            {
+              label: `Ok mais 5-10 minutes après`,
               description: " ",
               value: "5-10",
             },
             {
-              label: `dans 10-20 minutes`,
+              label: `Ok mais 10-20 minutes après`,
               description: " ",
               value: "10-20",
             },
             {
-              label: `dans 20-30 minutes`,
+              label: `Ok mais 20-30 minutes après`,
               description: " ",
               value: "20-30",
             },
             {
-              label: `dans 30-45 minutes`,
+              label: `Le monde a changé...`,
               description: " ",
-              value: "30-45",
-            },
-            {
-              label: `dans 45-60 minutes`,
-              description: " ",
-              value: "45-60",
+              value: "quit",
             }
           )
       );
+      if (interaction.options.getString("détails") != null) {
+        option = interaction.options.getString("détails");
+        pingMsg = {
+          content:
+            "<@&1015923384372166696> " +
+            option +
+            " \n" +
+            `<@${interaction.user.id}> est dispo à ` +
+            option,
+          components: [row],
+        };
+      } else {
+        option = "";
+        pingMsg = {
+          content:
+            "<@&1015923384372166696>" +
+            " \n" +
+            `<@${interaction.user.id}> est dispo`,
+          components: [row],
+        };
+      }
       pingedRecently.add(interaction.user.id);
       setTimeout(() => {
         pingedRecently.delete(interaction.user.id);
       }, 20 * 60 * 1000);
       const sentPing = await interaction.client.channels.cache
         .get("1015923444833079366")
-        .send({
-          content: "<@&1015923384372166696> " + option,
-          components: [row],
-        });
+        .send(pingMsg);
+      await sentPing.startThread({
+        name: "Nouveau ping pour doto " + sentPing.id,
+      });
       await interaction.reply(
         interaction.user.username +
           " just sent a ping in <#1015923444833079366>"

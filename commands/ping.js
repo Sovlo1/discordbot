@@ -70,17 +70,6 @@ module.exports = {
         interaction.user.username +
           " just sent a ping in <#1015923444833079366>"
       );
-      setTimeout(() => {
-        row.components[0].setDisabled(true),
-          sentPing.edit({
-            content: "<@&1015923384372166696> " + option,
-            components: [row],
-          });
-      }, 60 * 60 * 1000);
-      sentPing.edit({
-        content: "<@&1015923384372166696> " + option,
-        components: [row],
-      });
     }
   },
 };

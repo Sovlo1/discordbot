@@ -1,15 +1,7 @@
 require("dotenv").config();
 const fs = require("node:fs");
 const path = require("node:path");
-const {
-  Client,
-  GatewayIntentBits,
-  Collection,
-  ReactionUserManager,
-  ReactionManager,
-  ReactionCollector,
-} = require("discord.js");
-const { memoryStorage } = require("multer");
+const { Client, GatewayIntentBits, Collection } = require("discord.js");
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessageReactions],
@@ -46,7 +38,11 @@ client.on("interactionCreate", async (interaction) => {
       });
     }
   } else if (interaction.isSelectMenu()) {
-    // if (interaction.message.content.includes(interaction.user.id)) return;
+    if (interaction.message.content.includes(interaction.user.id))
+      return interaction.reply({
+        content: "Vous avez déja choisi une option",
+        ephemeral: true,
+      });
     let players;
     let message = await interaction.message.fetch(interaction.message.id);
     let messageArray = message.content.split(" ");

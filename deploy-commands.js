@@ -16,10 +16,16 @@ const commands = [
   new SlashCommandBuilder()
     .setName("barre")
     .setDescription("Mettre une barre à quelqu'un")
-    .addStringOption((option) =>
+    .addUserOption((option) =>
       option
         .setName("à")
         .setDescription("Pour préciser à qui")
+        .setRequired(true)
+    )
+    .addNumberOption((option) =>
+      option
+        .setName("combien")
+        .setDescription("Pour savoir combien de barre ajouter au compteur")
         .setRequired(true)
     ),
   new SlashCommandBuilder()

@@ -22,7 +22,7 @@ module.exports = {
     } else {
       const row = new ActionRowBuilder().addComponents(
         new SelectMenuBuilder()
-          .setCustomId("Select")
+          .setCustomId("SelectDota")
           .setPlaceholder("Nothing selected")
           .addOptions(
             {
@@ -82,6 +82,7 @@ module.exports = {
         .send(pingMsg);
       await sentPing.startThread({
         name: "Nouveau ping pour doto " + sentPing.id,
+        autoArchiveDuration: 60,
       });
       await interaction.reply(
         interaction.user.username +

@@ -13,6 +13,25 @@ const commands = [
         .setDescription("Pour préciser à quelle heure par exemple")
         .setRequired(false)
     ),
+  new SlashCommandBuilder()
+    .setName("barre")
+    .setDescription("Mettre une barre à quelqu'un")
+    .addStringOption((option) =>
+      option
+        .setName("à")
+        .setDescription("Pour préciser à qui")
+        .setRequired(true)
+    ),
+  new SlashCommandBuilder()
+    .setName("hackzorz")
+    .setDescription("h4ck3rm4n")
+    .addStringOption((option) =>
+      option
+        .setName("qui")
+        .setDescription("Indiquer qui vous souhaitez h4ckz0rz")
+        .setRequired(true)
+    ),
+  new SlashCommandBuilder().setName("pipi").setDescription("xd"),
 ].map((command) => command.toJSON());
 
 const rest = new REST({ version: "10" }).setToken(process.env.CLIENT_TOKEN);

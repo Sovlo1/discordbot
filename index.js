@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 require("dotenv").config();
 const fs = require("node:fs");
 const path = require("node:path");
@@ -131,3 +132,5 @@ client.on("interactionCreate", async (interaction) => {
 });
 
 client.login(process.env.CLIENT_TOKEN);
+=======
+>>>>>>> parent of 863921b (Bonjour)

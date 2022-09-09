@@ -1,6 +1,7 @@
 require("dotenv").config();
 const fs = require("node:fs");
 const path = require("node:path");
+const mongoose = require("mongoose");
 const { Client, GatewayIntentBits, Collection } = require("discord.js");
 
 const client = new Client({
@@ -31,7 +32,21 @@ for (const file of menuFiles) {
   client.menus.set(menu.data.name, menu);
 }
 
-client.on("ready", () => {
+client.on("ready", async () => {
+  await mongoose
+    .connect(process.env.MONGODB_URI, {
+      keepAlive: true,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then(
+      () => {
+        console.log("connected to database");
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   console.log(`Logged in as ${client.user.tag}!`);
 });
 

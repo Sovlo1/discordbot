@@ -38,6 +38,15 @@ const commands = [
         .setRequired(true)
     ),
   new SlashCommandBuilder().setName("pipi").setDescription("xd"),
+  new SlashCommandBuilder()
+    .setName("barrestatus")
+    .setDescription("voir combien de barre possède un utilisateur")
+    .addUserOption((option) =>
+      option
+        .setName("qui")
+        .setDescription("précisez de qui vous voulez voir le compteur")
+        .setRequired(true)
+    ),
 ].map((command) => command.toJSON());
 
 const rest = new REST({ version: "10" }).setToken(process.env.CLIENT_TOKEN);

@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require("discord.js");
 const { ActionRowBuilder, SelectMenuBuilder } = require("discord.js");
 const pingedRecently = require("../pingCheck");
+const { dotaChan, dotaRole } = require("../config.json");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -56,7 +57,7 @@ module.exports = {
         option = interaction.options.getString("détails");
         pingMsg = {
           content:
-            "<@&1015923384372166696> " +
+            `${dotaRole} ` +
             option +
             " \n" +
             `<@${interaction.user.id}> est dispo à ` +
@@ -67,9 +68,7 @@ module.exports = {
         option = "";
         pingMsg = {
           content:
-            "<@&1015923384372166696>" +
-            " \n" +
-            `<@${interaction.user.id}> est dispo`,
+            `${dotaRole}` + " \n" + `<@${interaction.user.id}> est dispo`,
           components: [row],
         };
       }
@@ -78,15 +77,14 @@ module.exports = {
         pingedRecently.delete(interaction.user.id);
       }, 20 * 60 * 1000);
       const sentPing = await interaction.client.channels.cache
-        .get("1015923444833079366")
+        .get(dotaChan)
         .send(pingMsg);
       await sentPing.startThread({
         name: "Nouveau ping pour doto " + sentPing.id,
         autoArchiveDuration: 60,
       });
       await interaction.reply(
-        interaction.user.username +
-          " just sent a ping in <#1015923444833079366>"
+        interaction.user.username + ` just sent a ping in <#${dotaChan}>`
       );
     }
   },

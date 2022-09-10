@@ -18,7 +18,7 @@ module.exports = {
         if (!user) {
           interaction.reply("Cet utilisateur n'a pas encore de barres");
         } else {
-          interaction.reply(`${user.username} à ${user.barres} barres.`);
+          interaction.reply(`${user.username} a ${user.barres} barres.`);
         }
       }
     );

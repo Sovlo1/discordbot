@@ -47,9 +47,12 @@ const commands = [
         .setDescription("précisez de qui vous voulez voir le compteur")
         .setRequired(true)
     ),
+  new SlashCommandBuilder()
+    .setName("leaderbarre")
+    .setDescription("voir les barres de tout le monde"),
 ].map((command) => command.toJSON());
 
-const rest = new REST({ version: "10" }).setToken(process.env.CLIENT_TOKEN);
+const rest = new REST({ version: "10" }).setToken(process.env.WIPCLIENT_TOKEN);
 
 rest
   .put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })

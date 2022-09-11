@@ -53,12 +53,19 @@ module.exports = {
           }
         })
         .catch((err) => console.log(err));
+      let pluralCheck;
+      if (
+        interaction.options.getNumber("combien") <= 1 &&
+        interaction.options.getNumber("combien") >= -1
+      ) {
+        pluralCheck = "barre";
+      } else pluralCheck = "barres";
       interaction.reply(
         `${
           interaction.user.username
         } vient de mettre ${interaction.options.getNumber(
           "combien"
-        )} barres à ${interaction.options.getUser("à").username}`
+        )} ${pluralCheck} à ${interaction.options.getUser("à").username}`
       );
     }
   },

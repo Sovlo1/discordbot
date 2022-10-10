@@ -1,3 +1,10 @@
+const DateTimeRecognizers = require("@microsoft/recognizers-text-date-time");
+var Recognizers = require("@microsoft/recognizers-text-suite");
+
+const recognizer = new DateTimeRecognizers.DateTimeRecognizer(
+  Recognizers.Culture.French
+).getDateTimeModel();
+
 module.exports = {
   data: {
     name: "SelectDota",
@@ -25,6 +32,14 @@ module.exports = {
         } else return;
       })
       .filter((x) => typeof x === "string");
+    console.log(whoPlaysArray[0]);
+    let whens = Recognizers.recognizeDateTime(
+      whoPlaysArray[0],
+      Recognizers.Culture.French
+    );
+    console.log(whens);
+    // console.log(whens[0].resolution.values[0].value);
+    // if (whens.length === 2)
     if (
       interaction.values[0] == "un instant" &&
       !interaction.message.content.includes(interaction.user.id)
@@ -36,10 +51,7 @@ module.exports = {
           " sera dispo dans " +
           interaction.values[0]
       );
-    } else if (
-      interaction.values[0] == "5-10" &&
-      !interaction.message.content.includes(interaction.user.id)
-    ) {
+    } else if (interaction.values[0] == "5-10") {
       await message.edit(
         interaction.message.content +
           " \n " +
@@ -83,7 +95,7 @@ module.exports = {
     }
     if (userArray.length >= 4 && interaction.values[0] != "quit") {
       players = userArray.join(" ");
-      return await interaction.reply(
+      interaction.reply(
         userArray.length +
           1 +
           " joueurs sont dispo soon: " +
@@ -91,7 +103,6 @@ module.exports = {
           " et " +
           `<@${interaction.user.id}>`
       );
-    }
-    return await interaction.deferUpdate();
+    } else return await interaction.deferUpdate();
   },
 };

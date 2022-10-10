@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require("discord.js");
 const { ActionRowBuilder, SelectMenuBuilder } = require("discord.js");
 const pingedRecently = require("../pingCheck");
 const { dotaChan, dotaRole } = require("../config.json");
+const userIdRegex = /(<@[0-9]+>)/;
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -14,8 +15,8 @@ module.exports = {
         .setRequired(false)
     ),
   async execute(interaction) {
-    let option;
     let pingMsg;
+    let option;
     if (pingedRecently.has(interaction.user.id)) {
       return await interaction.reply(
         "Vous ne pouvez pas repinger avant au moins 20 minutes"
@@ -54,7 +55,29 @@ module.exports = {
           )
       );
       if (interaction.options.getString("détails") != null) {
-        option = interaction.options.getString("détails");
+        option = interaction.options
+          .getString("détails")
+          .split(" ")
+          .map((x) => {
+            if (!userIdRegex.test(x)) {
+              return x;
+            } else {
+              let user;
+              let userId = x
+                .split("")
+                .map((y) => {
+                  if (/\d+/.test(y)) {
+                    return y;
+                  }
+                })
+                .filter((y) => typeof y === "string")
+                .join("");
+              user = interaction.client.users.cache.get(userId);
+              return user.username;
+            }
+          })
+          .filter((x) => typeof x === "string")
+          .join(" ");
         pingMsg = {
           content:
             `${dotaRole} ` +

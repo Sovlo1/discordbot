@@ -65,6 +65,8 @@ module.exports = {
           if (times[i] > interaction.message.createdTimestamp) {
             timeToPlay = times[i];
             break;
+          } else if (times[i] < interaction.message.createdTimestamp) {
+            timeToPlay = times[i];
           }
         }
         if (
@@ -78,8 +80,9 @@ module.exports = {
     recognizeTime(whens);
     let offset = 0;
     if (
-      interaction.values[0] == "un instant" &&
-      !interaction.message.content.includes(interaction.user.id)
+      interaction.values[0] == "un instant"
+      // &&
+      // !interaction.message.content.includes(interaction.user.id)
     ) {
       await message.edit(
         interaction.message.content +
@@ -89,8 +92,9 @@ module.exports = {
           interaction.values[0]
       );
     } else if (
-      interaction.values[0] == "5-10" &&
-      !interaction.message.content.includes(interaction.user.id)
+      interaction.values[0] == "5-10"
+      // &&
+      // !interaction.message.content.includes(interaction.user.id)
     ) {
       await message.edit(
         interaction.message.content +
@@ -99,12 +103,11 @@ module.exports = {
           " sera disponible dans " +
           interaction.values[0]
       );
-      if (offset < 5) {
-        offset = 5;
-      }
+      offset = 5;
     } else if (
-      interaction.values[0] == "10-20" &&
-      !interaction.message.content.includes(interaction.user.id)
+      interaction.values[0] == "10-20"
+      // &&
+      // !interaction.message.content.includes(interaction.user.id)
     ) {
       await message.edit(
         interaction.message.content +
@@ -113,12 +116,11 @@ module.exports = {
           " sera disponible dans " +
           interaction.values[0]
       );
-      if (offset < 10) {
-        offset = 10;
-      }
+      offset = 10;
     } else if (
-      interaction.values[0] == "20-30" &&
-      !interaction.message.content.includes(interaction.user.id)
+      interaction.values[0] == "20-30"
+      // &&
+      // !interaction.message.content.includes(interaction.user.id)
     ) {
       await message.edit(
         interaction.message.content +
@@ -127,12 +129,11 @@ module.exports = {
           " sera disponible dans " +
           interaction.values[0]
       );
-      if (offset < 20) {
-        offset = 20;
-      }
+      offset = 20;
     } else if (
-      interaction.values[0] == "quit" &&
-      interaction.message.content.includes(interaction.user.id)
+      interaction.values[0] == "quit"
+      // &&
+      // interaction.message.content.includes(interaction.user.id)
     ) {
       await message.edit(whoPlaysUpdated);
     } else {
@@ -142,10 +143,31 @@ module.exports = {
         ephemeral: true,
       });
     }
-    pingTime =
-      timeToPlay - interaction.message.createdTimestamp + offset * 60 * 1000;
     if (userArray.length >= 4 && interaction.values[0] != "quit") {
-      players = userArray.join(" ");
+      for (i = 1; i < whoPlaysArray.length; i++) {
+        if (whoPlaysArray[i].split(" ").includes("5-10") && offset < 5) {
+          offset = 5;
+        } else if (
+          whoPlaysArray[i].split(" ").includes("10-20") &&
+          offset < 10
+        ) {
+          offset = 10;
+        } else if (
+          whoPlaysArray[i].split(" ").includes("20-30") &&
+          offset < 20
+        ) {
+          offset = 20;
+        }
+      }
+      let pingTime;
+      if (timeToPlay - interaction.message.createdTimestamp < 0) {
+        pingTime = 0 + offset * 60 * 1000;
+      } else
+        pingTime =
+          timeToPlay -
+          interaction.message.createdTimestamp +
+          offset * 60 * 1000;
+      players = userArray.join("  ");
       setTimeout(() => {
         channel.send(
           userArray.length +

@@ -47,7 +47,11 @@ module.exports = {
         return (timeToPlay = interaction.message.createdTimestamp);
       } else {
         if (x[0].resolution === null) {
-          return (timeToPlay = interaction.message.createdTimestamp);
+          if (moment(x[0].text, "HH:mm").valueOf() !== NaN) {
+            return (timeToPlay = moment(x[0].text, "HH:mm").valueOf());
+          } else {
+            return (timeToPlay = interaction.message.createdTimestamp);
+          }
         }
         for (i = 0; i < x[0].resolution.values.length; i++) {
           if (x[0].resolution.values[i].type === "time") {
@@ -106,8 +110,9 @@ module.exports = {
       );
       offset = 5;
     } else if (
-      interaction.values[0] == "10-20" &&
-      !interaction.message.content.includes(interaction.user.id)
+      interaction.values[0] == "10-20"
+      // &&
+      // !interaction.message.content.includes(interaction.user.id)
     ) {
       await message.edit(
         interaction.message.content +

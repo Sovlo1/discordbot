@@ -46,6 +46,9 @@ module.exports = {
       if (x.length === 0) {
         return (timeToPlay = interaction.message.createdTimestamp);
       } else {
+        if (x[0].resolution === null) {
+          return (timeToPlay = interaction.message.createdTimestamp);
+        }
         for (i = 0; i < x[0].resolution.values.length; i++) {
           if (x[0].resolution.values[i].type === "time") {
             times.push(

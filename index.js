@@ -65,7 +65,6 @@ client.on("interactionCreate", async (interaction) => {
     }
   } else if (interaction.isSelectMenu()) {
     const menu = interaction.client.menus.get(interaction.customId);
-    console.log(menu);
     if (!menu) return;
     try {
       await menu.execute(interaction);

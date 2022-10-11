@@ -83,7 +83,7 @@ module.exports = {
             `${dotaRole} ` +
             option +
             " \n" +
-            `<@${interaction.user.id}> est dispo à ` +
+            `<@${interaction.user.id}> est disponible à ` +
             option,
           components: [row],
         };
@@ -91,7 +91,7 @@ module.exports = {
         option = "";
         pingMsg = {
           content:
-            `${dotaRole}` + " \n" + `<@${interaction.user.id}> est dispo`,
+            `${dotaRole}` + " \n" + `<@${interaction.user.id}> est disponible`,
           components: [row],
         };
       }

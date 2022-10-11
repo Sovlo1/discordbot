@@ -83,9 +83,8 @@ module.exports = {
     recognizeTime(whens);
     let offset = 0;
     if (
-      interaction.values[0] == "un instant"
-      // &&
-      // !interaction.message.content.includes(interaction.user.id)
+      interaction.values[0] == "un instant" &&
+      !interaction.message.content.includes(interaction.user.id)
     ) {
       await message.edit(
         interaction.message.content +
@@ -95,9 +94,8 @@ module.exports = {
           interaction.values[0]
       );
     } else if (
-      interaction.values[0] == "5-10"
-      // &&
-      // !interaction.message.content.includes(interaction.user.id)
+      interaction.values[0] == "5-10" &&
+      !interaction.message.content.includes(interaction.user.id)
     ) {
       await message.edit(
         interaction.message.content +
@@ -108,9 +106,8 @@ module.exports = {
       );
       offset = 5;
     } else if (
-      interaction.values[0] == "10-20"
-      // &&
-      // !interaction.message.content.includes(interaction.user.id)
+      interaction.values[0] == "10-20" &&
+      !interaction.message.content.includes(interaction.user.id)
     ) {
       await message.edit(
         interaction.message.content +
@@ -121,9 +118,8 @@ module.exports = {
       );
       offset = 10;
     } else if (
-      interaction.values[0] == "20-30"
-      // &&
-      // !interaction.message.content.includes(interaction.user.id)
+      interaction.values[0] == "20-30" &&
+      !interaction.message.content.includes(interaction.user.id)
     ) {
       await message.edit(
         interaction.message.content +
@@ -134,9 +130,8 @@ module.exports = {
       );
       offset = 20;
     } else if (
-      interaction.values[0] == "quit"
-      // &&
-      // interaction.message.content.includes(interaction.user.id)
+      interaction.values[0] == "quit" &&
+      interaction.message.content.includes(interaction.user.id)
     ) {
       await message.edit(whoPlaysUpdated);
     } else {

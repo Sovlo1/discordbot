@@ -110,9 +110,8 @@ module.exports = {
       );
       offset = 5;
     } else if (
-      interaction.values[0] == "10-20"
-      // &&
-      // !interaction.message.content.includes(interaction.user.id)
+      interaction.values[0] == "10-20" &&
+      !interaction.message.content.includes(interaction.user.id)
     ) {
       await message.edit(
         interaction.message.content +

@@ -26,6 +26,9 @@ module.exports = {
         "Vous ne pouvez pas repinger avant au moins 20 minutes"
       );
     } else {
+      interaction.reply(
+        interaction.user.username + ` just sent a ping in <#${dotaChan}>`
+      );
       const row = new ActionRowBuilder().addComponents(
         new SelectMenuBuilder()
           .setCustomId("SelectDota")
@@ -58,30 +61,9 @@ module.exports = {
             }
           )
       );
+
       if (interaction.options.getString("détails") != null) {
-        option = interaction.options
-          .getString("détails")
-          .split(" ")
-          .map((x) => {
-            if (!userIdRegex.test(x)) {
-              return x;
-            } else {
-              let user;
-              let userId = x
-                .split("")
-                .map((y) => {
-                  if (/\d+/.test(y)) {
-                    return y;
-                  }
-                })
-                .filter((y) => typeof y === "string")
-                .join("");
-              user = interaction.client.users.cache.get(userId);
-              return user.username;
-            }
-          })
-          .filter((x) => typeof x === "string")
-          .join(" ");
+        option = interaction.options.getString("détails");
         let whens = Recognizers.recognizeDateTime(
           option,
           Recognizers.Culture.French
@@ -131,7 +113,7 @@ module.exports = {
         recognizeTime(whens);
         pingMsg = {
           content:
-            `${dotaRole} à ${moment.unix(timeToPlay / 1000).format("HH:mm")} ` +
+            `${dotaRole} à  ` +
             option +
             " \n" +
             `<@${interaction.user.id}> est disponible à ` +
@@ -157,9 +139,6 @@ module.exports = {
         name: "Nouveau ping pour doto " + sentPing.id,
         autoArchiveDuration: 60,
       });
-      await interaction.reply(
-        interaction.user.username + ` just sent a ping in <#${dotaChan}>`
-      );
     }
   },
 };

@@ -23,19 +23,12 @@ module.exports = {
       interaction.channelId
     );
     let message = await interaction.message.fetch(interaction.message.id);
-    let messageArray = message.content.split(" ");
     let whoPlaysArray = message.content.split("\n");
-    let whoPlaysUpdated = whoPlaysArray
-      .filter((x) => !x.includes(interaction.user.id))
-      .join("\n");
-    const userIdRegex = /(<@[0-9]+>)/;
-    let userArray = messageArray
-      .map((x) => {
-        if (userIdRegex.test(x)) {
-          return x;
-        } else return;
-      })
-      .filter((x) => typeof x === "string");
+    let whoPlaysUpdated = [];
+    for (i = 1; i < whoPlaysArray.length; i++) {
+      console.log(whoPlaysArray[i]);
+      whoPlaysUpdated.push(whoPlaysArray[i].split(" ")[0]);
+    }
     let whens = Recognizers.recognizeDateTime(
       whoPlaysArray[0],
       Recognizers.Culture.French
@@ -146,7 +139,7 @@ module.exports = {
         ephemeral: true,
       });
     }
-    if (userArray.length >= 4 && interaction.values[0] != "quit") {
+    if (whoPlaysUpdated.length >= 4 && interaction.values[0] != "quit") {
       for (i = 1; i < whoPlaysArray.length; i++) {
         if (whoPlaysArray[i].split(" ").includes("5-10") && offset < 5) {
           offset = 5;
@@ -168,10 +161,10 @@ module.exports = {
       } else if (timeToPlay - interaction.message.createdTimestamp < 0) {
         pingTime = 0 + offset * 60 * 1000;
       } else pingTime = timeToPlay - time + offset * 60 * 1000;
-      players = userArray.join("  ");
+      players = whoPlaysUpdated.join("  ");
       setTimeout(() => {
         channel.send(
-          userArray.length +
+          whoPlaysUpdated.length +
             1 +
             " joueurs seront bientôt disponibles: " +
             players +
@@ -182,7 +175,7 @@ module.exports = {
       if (pingTime > 0) {
         return interaction.reply(
           `${
-            userArray.length + 1
+            whoPlaysUpdated.length + 1
           } joueurs seront bientôt prêts et se feront ping dans environ ${Math.round(
             pingTime / 1000 / 60
           )} minutes`

@@ -4,6 +4,10 @@ const pingedRecently = require("../pingCheck");
 const { dotaChan, dotaRole } = require("../config.json");
 const userIdRegex = /(<@[0-9]+>)/;
 
+const DateTimeRecognizers = require("@microsoft/recognizers-text-date-time");
+var Recognizers = require("@microsoft/recognizers-text-suite");
+const moment = require("moment");
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("dota")
@@ -78,9 +82,56 @@ module.exports = {
           })
           .filter((x) => typeof x === "string")
           .join(" ");
+        let whens = Recognizers.recognizeDateTime(
+          option,
+          Recognizers.Culture.French
+        );
+        let timeToPlay;
+        let times = [];
+        let time = Date.now();
+        recognizeTime = (x) => {
+          if (x.length === 0) {
+            return (timeToPlay = time);
+          } else {
+            if (x[0].resolution === null) {
+              if (moment(x[0].text, "HH:mm").valueOf() !== NaN) {
+                return (timeToPlay = moment(x[0].text, "HH:mm").valueOf());
+              } else {
+                return (timeToPlay = time);
+              }
+            }
+            for (i = 0; i < x[0].resolution.values.length; i++) {
+              if (x[0].resolution.values[i].type === "time") {
+                times.push(
+                  moment(x[0].resolution.values[i].value, "HH:mm:ss").valueOf()
+                );
+              } else if (x[0].resolution.values[i].type === "datetime") {
+                times.push(
+                  moment(
+                    x[0].resolution.values[i].value,
+                    "YYYY-MM-DD HH:mm:ss"
+                  ).valueOf()
+                );
+              }
+            }
+            times.sort();
+            for (i = 0; i < times.length; i++) {
+              if (times[i] > time) {
+                timeToPlay = times[i];
+                break;
+              } else if (times[i] < time) {
+                timeToPlay = times[i];
+              }
+            }
+            if (timeToPlay - time > 12 * 60 * 60 * 1000) {
+              return (timeToPlay = time);
+            }
+          }
+        };
+        recognizeTime(whens);
         pingMsg = {
           content:
-            `${dotaRole} ` +
+            `${dotaRole} à ${moment.unix(timeToPlay / 1000).format("HH:mm")} ` +
             option +
             " \n" +
             `<@${interaction.user.id}> est disponible à ` +

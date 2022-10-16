@@ -84,6 +84,7 @@ module.exports = {
         }
       }
     };
+
     recognizeTime(whens);
     let offset = 0;
     if (
@@ -162,13 +163,11 @@ module.exports = {
         }
       }
       let pingTime;
-      if (timeToPlay - interaction.message.createdTimestamp < 0) {
+      if (timeToPlay - time < 0) {
         pingTime = 0 + offset * 60 * 1000;
-      } else
-        pingTime =
-          timeToPlay -
-          interaction.message.createdTimestamp +
-          offset * 60 * 1000;
+      } else if (timeToPlay - interaction.message.createdTimestamp < 0) {
+        pingTime = 0 + offset * 60 * 1000;
+      } else pingTime = timeToPlay - time + offset * 60 * 1000;
       players = userArray.join("  ");
       setTimeout(() => {
         channel.send(
@@ -184,7 +183,7 @@ module.exports = {
         return interaction.reply(
           `${
             userArray.length + 1
-          } joueurs seront bientôt prêts et se feront ping dans ${Math.round(
+          } joueurs seront bientôt prêts et se feront ping dans environ ${Math.round(
             pingTime / 1000 / 60
           )} minutes`
         );

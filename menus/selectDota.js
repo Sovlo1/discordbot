@@ -26,9 +26,9 @@ module.exports = {
     let whoPlaysArray = message.content.split("\n");
     let whoPlaysUpdated = [];
     for (i = 1; i < whoPlaysArray.length; i++) {
-      console.log(whoPlaysArray[i]);
       whoPlaysUpdated.push(whoPlaysArray[i].split(" ")[0]);
     }
+    console.log(whoPlaysUpdated, whoPlaysArray);
     let whens = Recognizers.recognizeDateTime(
       whoPlaysArray[0],
       Recognizers.Culture.French
@@ -92,8 +92,9 @@ module.exports = {
           interaction.values[0]
       );
     } else if (
-      interaction.values[0] == "5-10" &&
-      !interaction.message.content.includes(interaction.user.id)
+      interaction.values[0] == "5-10"
+      // &&
+      // !interaction.message.content.includes(interaction.user.id)
     ) {
       await message.edit(
         interaction.message.content +
@@ -131,7 +132,13 @@ module.exports = {
       interaction.values[0] == "quit" &&
       interaction.message.content.includes(interaction.user.id)
     ) {
-      await message.edit(whoPlaysUpdated);
+      let quit = [];
+      for (i = 0; i < whoPlaysArray.length; i++) {
+        if (!whoPlaysArray[i].includes(interaction.user.id)) {
+          quit.push(whoPlaysArray[i]);
+        }
+      }
+      await message.edit(quit.join("\n"));
     } else {
       return await interaction.reply({
         content:

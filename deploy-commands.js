@@ -50,6 +50,15 @@ const commands = [
   new SlashCommandBuilder()
     .setName("leaderbarre")
     .setDescription("voir les barres de tout le monde"),
+  new SlashCommandBuilder()
+    .setName("reset")
+    .setDescription("remettre un utilisateur à 0 barre")
+    .addUserOption((option) =>
+      option
+        .setName("à")
+        .setDescription("Pour préciser à qui")
+        .setRequired(true)
+    ),
 ].map((command) => command.toJSON());
 
 const rest = new REST({ version: "10" }).setToken(process.env.WIPCLIENT_TOKEN);

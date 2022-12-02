@@ -113,7 +113,7 @@ module.exports = {
         recognizeTime(whens);
         pingMsg = {
           content:
-            `${dotaRole} à  ` +
+            `${dotaRole} à ` +
             option +
             " \n" +
             `<@${interaction.user.id}> est disponible à ` +

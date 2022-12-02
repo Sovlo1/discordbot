@@ -92,9 +92,8 @@ module.exports = {
           interaction.values[0]
       );
     } else if (
-      interaction.values[0] == "5-10"
-      // &&
-      // !interaction.message.content.includes(interaction.user.id)
+      interaction.values[0] == "5-10" &&
+      !interaction.message.content.includes(interaction.user.id)
     ) {
       await message.edit(
         interaction.message.content +

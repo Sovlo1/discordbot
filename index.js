@@ -53,7 +53,7 @@ client.on("ready", async () => {
     "0 5 */1 * *",
     () => {
       client.channels.cache
-        .get("1015877951985831987")
+        .get("229696890860470281")
         .send(`Avez vous procédé au caca du matin??????`);
     },
     true

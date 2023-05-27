@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("discord.js");
-const { ActionRowBuilder, SelectMenuBuilder } = require("discord.js");
+const { ActionRowBuilder, StringSelectMenuBuilder } = require("discord.js");
 const pingedRecently = require("../pingCheck");
 const { dotaChan, dotaRole } = require("../config.json");
 const userIdRegex = /(<@[0-9]+>)/;
@@ -30,7 +30,7 @@ module.exports = {
         interaction.user.username + ` just sent a ping in <#${dotaChan}>`
       );
       const row = new ActionRowBuilder().addComponents(
-        new SelectMenuBuilder()
+        new StringSelectMenuBuilder()
           .setCustomId("SelectDota")
           .setPlaceholder("Nothing selected")
           .addOptions(

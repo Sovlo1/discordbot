@@ -29,6 +29,7 @@ module.exports = {
       whoPlaysUpdated.push(whoPlaysArray[i].split(" ")[0]);
     }
     console.log(whoPlaysUpdated, whoPlaysArray);
+    console.log(message);
     let whens = Recognizers.recognizeDateTime(
       whoPlaysArray[0],
       Recognizers.Culture.French

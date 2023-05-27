@@ -3,6 +3,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const mongoose = require("mongoose");
 const { Client, GatewayIntentBits, Collection } = require("discord.js");
+const cron = require("cron");
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessageReactions],
@@ -48,6 +49,16 @@ client.on("ready", async () => {
       }
     );
   console.log(`Logged in as ${client.user.tag}!`);
+  const cacaSchedule = new cron.CronJob(
+    "0 5 */1 * *",
+    () => {
+      client.channels.cache
+        .get("1015877951985831987")
+        .send(`Avez vous procédé au caca du matin??????`);
+    },
+    true
+  );
+  cacaSchedule.start();
 });
 
 client.on("interactionCreate", async (interaction) => {

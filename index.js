@@ -135,4 +135,4 @@ client.on("messageCreate", async (interaction) => {
   }
 });
 
-client.login(process.env.WIPCLIENT_TOKEN);
+client.login(process.env.CLIENT_TOKEN);

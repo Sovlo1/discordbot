@@ -6,7 +6,12 @@ const { Client, GatewayIntentBits, Collection } = require("discord.js");
 const cron = require("cron");
 
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessageReactions],
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+  ],
 });
 
 client.commands = new Collection();
@@ -89,4 +94,45 @@ client.on("interactionCreate", async (interaction) => {
   } else return;
 });
 
-client.login(process.env.CLIENT_TOKEN);
+client.on("messageCreate", async (interaction) => {
+  console.log(interaction);
+  if (interaction.author.bot) {
+    return false;
+  }
+
+  let splitMessage = interaction.content.split(" ");
+  console.log(splitMessage);
+  let filteredMessage = splitMessage
+    .map((x) => {
+      if (x.startsWith("https://twitter")) {
+        let splitX = x.split("//");
+        console.log(x);
+        splitX[1] = "//fx" + splitX[1];
+        return splitX.join("");
+      }
+    })
+    .filter((y) => y !== undefined);
+
+  if (filteredMessage.length > 0) {
+    client.channels.cache.get(interaction.channelId).send(filteredMessage[0]);
+  }
+
+  let lastWord = splitMessage.pop();
+  if (
+    lastWord.toLowerCase() === "quoi" ||
+    lastWord.toLowerCase() === "koi" ||
+    lastWord.toLowerCase() === "qoi" ||
+    lastWord.toLowerCase() === "koa" ||
+    lastWord.toLowerCase() === "aqua"
+  ) {
+    client.channels.cache.get(interaction.channelId).send("feur xD");
+  }
+
+  if (lastWord.toLowerCase() === "feur") {
+    client.channels.cache
+      .get(interaction.channelId)
+      .send("Vraiment drole ça..................................");
+  }
+});
+
+client.login(process.env.WIPCLIENT_TOKEN);

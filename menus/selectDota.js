@@ -168,6 +168,7 @@ module.exports = {
       } else if (timeToPlay - interaction.message.createdTimestamp < 0) {
         pingTime = 0 + offset * 60 * 1000;
       } else pingTime = timeToPlay - time + offset * 60 * 1000;
+      console.log(pingTime);
       players = whoPlaysUpdated.join("  ");
       setTimeout(() => {
         channel.send(

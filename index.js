@@ -55,7 +55,7 @@ client.on("ready", async () => {
     );
   console.log(`Logged in as ${client.user.tag}!`);
   const cacaSchedule = new cron.CronJob(
-    "0 5 */1 * *",
+    "0 7 */1 * *",
     () => {
       client.channels.cache
         .get("229696890860470281")
@@ -109,6 +109,12 @@ client.on("messageCreate", async (interaction) => {
         console.log(x);
         splitX[1] = "//fx" + splitX[1];
         return splitX.join("");
+      } else if (x.startsWith("https://x.")) {
+        console.log("oui");
+        let splitX = x.split("//x");
+        console.log(x);
+        splitX[1] = "//fxtwitter" + splitX[1];
+        return splitX.join("");
       }
     })
     .filter((y) => y !== undefined);
@@ -117,13 +123,19 @@ client.on("messageCreate", async (interaction) => {
     client.channels.cache.get(interaction.channelId).send(filteredMessage[0]);
   }
 
-  let lastWord = splitMessage.pop();
+  let lastWord = splitMessage.pop().replace(/[\W_]+/g, "");
+  console.log(splitMessage);
+  let regExp = /[a-zA-Z]/g;
+  if (!regExp.test(lastWord)) {
+    lastWord = splitMessage.pop().replace(/[\W_]+/g, "");
+  }
   if (
     lastWord.toLowerCase() === "quoi" ||
     lastWord.toLowerCase() === "koi" ||
     lastWord.toLowerCase() === "qoi" ||
     lastWord.toLowerCase() === "koa" ||
-    lastWord.toLowerCase() === "aqua"
+    lastWord.toLowerCase() === "aqua" ||
+    lastWord.toLowerCase() === "pourquoi"
   ) {
     client.channels.cache.get(interaction.channelId).send("feur xD");
   }

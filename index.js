@@ -126,8 +126,13 @@ client.on("messageCreate", async (interaction) => {
   let lastWord = splitMessage.pop().replace(/[\W_]+/g, "");
   console.log(splitMessage);
   let regExp = /[a-zA-Z]/g;
-  if (!regExp.test(lastWord)) {
-    lastWord = splitMessage.pop().replace(/[\W_]+/g, "");
+  lastWorsdIsAword = false;
+  while (!lastWorsdIsAword && splitMessage.length > 0) {
+    if (regExp.test(lastWord)) {
+      lastWorsdIsAword = true;
+    } else {
+      lastWord = splitMessage.pop().replace(/[\W_]+/g, "");
+    }
   }
   if (
     lastWord.toLowerCase() === "quoi" ||

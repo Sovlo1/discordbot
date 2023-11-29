@@ -54,16 +54,6 @@ client.on("ready", async () => {
       }
     );
   console.log(`Logged in as ${client.user.tag}!`);
-  const cacaSchedule = new cron.CronJob(
-    "0 7 */1 * *",
-    () => {
-      client.channels.cache
-        .get("229696890860470281")
-        .send(`Avez vous procédé au caca du matin??????`);
-    },
-    true
-  );
-  cacaSchedule.start();
 });
 
 client.on("interactionCreate", async (interaction) => {
@@ -134,22 +124,7 @@ client.on("messageCreate", async (interaction) => {
       lastWord = splitMessage.pop().replace(/[\W_]+/g, "");
     }
   }
-  if (
-    lastWord.toLowerCase() === "quoi" ||
-    lastWord.toLowerCase() === "koi" ||
-    lastWord.toLowerCase() === "qoi" ||
-    lastWord.toLowerCase() === "koa" ||
-    lastWord.toLowerCase() === "aqua" ||
-    lastWord.toLowerCase() === "pourquoi"
-  ) {
-    client.channels.cache.get(interaction.channelId).send("feur xD");
-  }
 
-  if (lastWord.toLowerCase() === "feur") {
-    client.channels.cache
-      .get(interaction.channelId)
-      .send("Vraiment drole ça..................................");
-  }
 });
 
 client.login(process.env.CLIENT_TOKEN);

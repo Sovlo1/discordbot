@@ -4,6 +4,7 @@ const userSchema = mongoose.Schema({
   userId: { type: String, required: true },
   username: { type: String, required: true },
   barres: { type: Number, default: 0 },
+  crottes: { type: Number, default: 0 },
 });
 
 module.exports = mongoose.model("user", userSchema);

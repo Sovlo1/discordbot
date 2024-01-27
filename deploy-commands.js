@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, Routes } = require("discord.js");
 const { REST } = require("@discordjs/rest");
-const { clientId, guildId } = require("./config.json");
+const { clientId, guildId, wipClientId, wipGuildId } = require("./config.json");
 require("dotenv").config();
 
 const commands = [
@@ -59,11 +59,19 @@ const commands = [
         .setDescription("Pour préciser à qui")
         .setRequired(true)
     ),
+  new SlashCommandBuilder()
+    .setName("crotte")
+    .setDescription("Ajouter un caca au compteur de crotte"),
+  new SlashCommandBuilder()
+    .setName("leadercrotte")
+    .setDescription("Voir les crottes de tout le monde"),
 ].map((command) => command.toJSON());
 
-const rest = new REST({ version: "10" }).setToken(process.env.CLIENT_TOKEN);
+const rest = new REST({ version: "10" }).setToken(process.env.WIPCLIENT_TOKEN);
 
 rest
-  .put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
+  .put(Routes.applicationGuildCommands(wipClientId, wipGuildId), {
+    body: commands,
+  })
   .then(() => console.log("Successfully registered application commands."))
   .catch(console.error);

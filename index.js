@@ -95,36 +95,36 @@ client.on("interactionCreate", async (interaction) => {
 });
 
 client.on("messageCreate", async (interaction) => {
-  console.log(interaction);
+  // console.log(interaction);
   if (interaction.author.bot) {
     return false;
   }
 
   let splitMessage = interaction.content.split(" ");
-  console.log(splitMessage);
-  let filteredMessage = splitMessage
-    .map((x) => {
-      if (x.startsWith("https://twitter")) {
-        let splitX = x.split("//");
-        console.log(x);
-        splitX[1] = "//fx" + splitX[1];
-        return splitX.join("");
-      } else if (x.startsWith("https://x.")) {
-        console.log("oui");
-        let splitX = x.split("//x");
-        console.log(x);
-        splitX[1] = "//fxtwitter" + splitX[1];
-        return splitX.join("");
-      }
-    })
-    .filter((y) => y !== undefined);
+  // console.log(splitMessage);
+  // let filteredMessage = splitMessage
+  //   .map((x) => {
+  //     if (x.startsWith("https://twitter")) {
+  //       let splitX = x.split("//");
+  //       console.log(x);
+  //       splitX[1] = "//fx" + splitX[1];
+  //       return splitX.join("");
+  //     } else if (x.startsWith("https://x.")) {
+  //       console.log("oui");
+  //       let splitX = x.split("//x");
+  //       console.log(x);
+  //       splitX[1] = "//fxtwitter" + splitX[1];
+  //       return splitX.join("");
+  //     }
+  //   })
+  //   .filter((y) => y !== undefined);
 
-  if (filteredMessage.length > 0) {
-    client.channels.cache.get(interaction.channelId).send(filteredMessage[0]);
-  }
+  // if (filteredMessage.length > 0) {
+  //   client.channels.cache.get(interaction.channelId).send(filteredMessage[0]);
+  // }
 
   let lastWord = splitMessage.pop().replace(/[\W_]+/g, "");
-  console.log(splitMessage);
+  // console.log(splitMessage);
   let regExp = /[a-zA-Z]/g;
   lastWorsdIsAword = false;
   while (!lastWorsdIsAword && splitMessage.length > 0) {
@@ -142,7 +142,18 @@ client.on("messageCreate", async (interaction) => {
     lastWord.toLowerCase() === "aqua" ||
     lastWord.toLowerCase() === "pourquoi"
   ) {
-    client.channels.cache.get(interaction.channelId).send("feur xD");
+    let time = new Date().getHours();
+    console.log(time);
+    if ((time > 0 && time < 6) || time >= 10) {
+      let rollTheD11 = Math.round(Math.random() * 10);
+      if (rollTheD11 === 0) {
+        client.channels.cache.get(interaction.channelId).send("COUBEH APAGNAN");
+      } else {
+        client.channels.cache.get(interaction.channelId).send("feur xD");
+      }
+    } else {
+      return false;
+    }
   }
 
   if (lastWord.toLowerCase() === "feur") {
@@ -152,4 +163,4 @@ client.on("messageCreate", async (interaction) => {
   }
 });
 
-client.login(process.env.CLIENT_TOKEN);
+client.login(process.env.WIPCLIENT_TOKEN);

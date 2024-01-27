@@ -67,10 +67,10 @@ const commands = [
     .setDescription("Voir les crottes de tout le monde"),
 ].map((command) => command.toJSON());
 
-const rest = new REST({ version: "10" }).setToken(process.env.WIPCLIENT_TOKEN);
+const rest = new REST({ version: "10" }).setToken(process.env.CLIENT_TOKEN);
 
 rest
-  .put(Routes.applicationGuildCommands(wipClientId, wipGuildId), {
+  .put(Routes.applicationGuildCommands(clientId, guildId), {
     body: commands,
   })
   .then(() => console.log("Successfully registered application commands."))
